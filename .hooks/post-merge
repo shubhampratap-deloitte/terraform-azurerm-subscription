@@ -1,0 +1,46 @@
+#!/usr/bin/env python3
+import subprocess
+import re
+
+
+def get_current_branch():
+    return subprocess.check_output(
+        ["git", "rev-parse", "--abbrev-ref", "HEAD"]
+    ).decode().strip()
+
+def get_latest_tag():
+    try:
+        return subprocess.check_output(
+            ["git", "describe", "--tags", "--abbrev=0"]
+        ).decode().strip()
+    except subprocess.CalledProcessError:
+        return "v0.0.0"  # Default tag if no tags are found
+
+def increment_tag(tag):
+    # Extract version components
+    match = re.match(r'v(\d+)\.(\d+)\.(\d+)', tag)
+    if match:
+        major, minor, patch = map(int, match.groups())
+        # Increment the last component
+        patch += 1
+        # Create and return the new tag
+        return f"v{major}.{minor}.{patch}"
+    else:
+        # Return the original tag if the format is not as expected
+        return tag
+
+def main():
+    if get_current_branch() == "main":
+        latest_tag = get_latest_tag()
+        
+        # Increment the tag
+        new_tag = increment_tag(latest_tag)
+
+        subprocess.run(["git", "tag", new_tag])
+        print(f"New tag created: {new_tag}")
+
+        subprocess.run(["git", "push", "origin", new_tag])
+        print(f"Pushed tag '{new_tag}' to remote 'origin'.")
+
+if __name__ == "__main__":
+    main()

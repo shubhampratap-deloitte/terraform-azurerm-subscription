@@ -1,0 +1,31 @@
+#!/bin/bash
+
+# Post-commit hook to update CHANGELOG.md based on commit message using Jinja template
+
+# Check if AMENDING_COMMIT environment variable is set
+if [ -z "$AMENDING_COMMIT" ]; then
+    # If not set, set the environment variable and run the script
+    export AMENDING_COMMIT=1
+
+    # Extracting information from the commit message
+    commit_message=$(git log -1 --pretty=%B)
+    version=$(echo $commit_message | grep -o 'version:[^,]\+' | cut -d':' -f2)
+    added_items=$(echo $commit_message | grep -o 'Added:[^,]\+' | cut -d':' -f2 | tr ';' '\n' | awk '{$1=$1};1')
+    changed_items=$(echo $commit_message | grep -o 'Changed:[^,]\+' | cut -d':' -f2 | tr ';' '\n' | awk '{$1=$1};1')
+    fixed_items=$(echo $commit_message | grep -o 'Fixed:[^,]\+' | cut -d':' -f2 | tr ';' '\n' | awk '{$1=$1};1')
+
+    # Current date
+    date=$(date +%Y-%m-%d)
+
+    # Invoke the Python script for Jinja templating
+    python3 update_changelog.py "$version" "$date" "$added_items" "$changed_items" "$fixed_items"
+
+    # Add the changes to the staging area
+    git add CHANGELOG.md
+
+    # Commit the changes with an amendment and without editing the commit message
+    git commit --amend --no-edit
+
+    # Print a message indicating successful population of Changelog
+    echo "Populated comment messages in CHANGELOG.md"
+fi
