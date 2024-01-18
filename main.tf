@@ -10,5 +10,5 @@ resource "azurerm_subscription" "subscription_create" {
 
 resource "azurerm_management_group_subscription_association" "subscription_associate" {
   management_group_id =  "/providers/Microsoft.Management/managementGroups/${var.subscription_management_group_id_name}"
-   subscription_id     =  "/subscriptions/${azurerm_subscription.subscription_create.id}"
+  subscription_id     =  "/subscriptions/${azurerm_subscription.subscription_create.id}"
 }
