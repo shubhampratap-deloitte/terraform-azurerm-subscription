@@ -17,27 +17,3 @@ variable "billing_account_name" {
   description = "(Optional) The Azure Billing Scope ID. Can be a Microsoft Customer Account Billing Scope ID, a Microsoft Partner Account Billing Scope ID or an Enrollment Billing Scope ID."
 
 }
-variable "client_id" {
-  type        = string
-  default     = null
-  description = "Azure Client ID (Application Object ID)"
-}
-
-variable "client_secret" {
-  type        = string
-  default     = null
-  description = "The Client Secret for the Client ID"
-}
-
-variable "tenant_id" {
-  type        = string
-  default     = null
-  description = " The Azure Tenant ID."
-}
-
-variable "subscription_id" {
-  type        = string
-  default     = null
-  description = "The Azure Subscription ID."
-}
-
