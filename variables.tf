@@ -1,19 +1,25 @@
-variable "subscription_management_group_id_name" {
-  type        = string
-  description = "(Required) The ID of the Management Group to associate the Subscription with. *Changing this forces a new Management to be created.*"
+variable "subscriptions" {
+  description = <<DESCRIPTION
+A map of the subscription to create. THe value is an object with the following attributes:
 
+- `billing_account_name` - the name of the billing account
+- `enrollment_account_name` - the name of the enrollment_account_name
+- 'subscription_name' - the name of the new subscription
+- 'management_group_id_name' = Name of the Management Group you want to associate this with
+- `tags` - a map of type string
+  type = map(object({
+    name     = string
+    location = string
+    tags     = map(string)
+  }))
 }
-variable "subscription_name" {
-  type        = string
-  description = "(Required) The Name of the Subscription. This is the Display Name in the portal."
-}
-variable "enrollment_account_name" {
-  type        = string
-  description = "Details of the Enrollment Account Name"
+DESCRIPTION
+  type = map(object({
+    billing_account_name     = string
+    enrollment_account_name  = string
+    subscription_name        = string
+    management_group_id_name = string
+    tags                     = map(string)
 
-}
-variable "billing_account_name" {
-  type        = string
-  description = "(Optional) The Azure Billing Scope ID. Can be a Microsoft Customer Account Billing Scope ID, a Microsoft Partner Account Billing Scope ID or an Enrollment Billing Scope ID."
-
+  }))
 }
