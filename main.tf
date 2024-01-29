@@ -8,14 +8,14 @@ data "azurerm_billing_enrollment_account_scope" "subscription" {
 resource "azurerm_subscription" "subscription_create" {
   for_each = var.subscriptions
 
-  subscription_name = each.value.subscription_name
+  subscription_name = each.key
   billing_scope_id  = data.azurerm_billing_enrollment_account_scope.subscription[each.key].id
-  tags = each.value.tags
+  tags              = each.value.tags
 }
 
 resource "azurerm_management_group_subscription_association" "subscription_associate" {
   for_each = var.subscriptions
 
-  management_group_id =  "/providers/Microsoft.Management/managementGroups/${each.value.management_group_id_name}"
-  subscription_id     =  "/subscriptions/${azurerm_subscription.subscription_create[each.key].id}"
+  management_group_id = "/providers/Microsoft.Management/managementGroups/${each.value.management_group_id_name}"
+  subscription_id     = "/subscriptions/${azurerm_subscription.subscription_create[each.key].id}"
 }

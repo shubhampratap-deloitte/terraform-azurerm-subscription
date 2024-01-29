@@ -1,6 +1,6 @@
-variable "subscriptions" {
+variable "subscription_subscriptions" {
   description = <<DESCRIPTION
-A map of the subscription to create. THe value is an object with the following attributes:
+A map of the subscription to create. The key is name of subscription and value is an object with the following attributes:
 
 - `billing_account_name` - the name of the billing account
 - `enrollment_account_name` - the name of the enrollment_account_name
