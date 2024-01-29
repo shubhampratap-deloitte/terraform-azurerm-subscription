@@ -1,6 +1,6 @@
 variable "subscriptions" {
   description = <<DESCRIPTION
-A map of the subscription to create. THe value is an object with the following attributes:
+A map of the subscription to create. The Key will be the name of the Subscription. The value is an object with the following attributes:
 
 - `billing_account_name` - the name of the billing account
 - `enrollment_account_name` - the name of the enrollment_account_name
@@ -17,7 +17,6 @@ DESCRIPTION
   type = map(object({
     billing_account_name     = string
     enrollment_account_name  = string
-    subscription_name        = string
     management_group_name = string
     tags                     = map(string)
 
