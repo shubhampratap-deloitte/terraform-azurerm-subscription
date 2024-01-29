@@ -8,7 +8,7 @@ data "azurerm_billing_enrollment_account_scope" "billing_enrollment_account" {
 resource "azurerm_subscription" "subscription_create" {
   for_each = var.subscriptions
 
-  subscription_name = each.value.subscription_name
+  subscription_name = each.key
   billing_scope_id  = data.azurerm_billing_enrollment_account_scope.billing_enrollment_account[each.key].id
   tags = each.value.tags
 }
