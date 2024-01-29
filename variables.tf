@@ -18,7 +18,7 @@ DESCRIPTION
     billing_account_name     = string
     enrollment_account_name  = string
     subscription_name        = string
-    management_group_id_name = string
+    management_group_name = string
     tags                     = map(string)
 
   }))
